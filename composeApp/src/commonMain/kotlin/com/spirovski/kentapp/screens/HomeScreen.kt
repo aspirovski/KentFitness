@@ -260,18 +260,18 @@ private fun MealsCard() {
             Spacer(modifier = Modifier.height(8.dp))
 
 
-            val meals = listOf("Chicken and Rice", "Oats + Banana")
+            val mealsText = listOf("Chicken and Rice", "Oats + Banana")
 
             LazyColumn(
                 modifier = Modifier.fillMaxWidth().height(120.dp),
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Center) {
 
-                items(meals.size) {
+                items(mealsText.size) {
 
                     Card(
                         onClick = {
-                            navigateToScreen(Routes.MealDescript)
+                            navigateToScreen(Routes.MealDescript(mealName = mealsText[it]))
                         },
                         modifier = Modifier
                             .fillMaxWidth()
@@ -279,7 +279,7 @@ private fun MealsCard() {
                         elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
                     ) {
                         Text(
-                            text = meals[it],
+                            text = mealsText[it],
                             modifier = Modifier.padding(12.dp).fillMaxWidth(),
                             textAlign = TextAlign.Center)
                     }

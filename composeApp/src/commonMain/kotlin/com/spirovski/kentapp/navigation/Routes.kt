@@ -13,17 +13,20 @@ fun navigateBack() {
 sealed interface Routes {
 
     @Serializable
+    object Splash : Routes
+
+    @Serializable
     object Home : Routes
 
     @Serializable
     object Meals: Routes
 
     @Serializable
-    object MealDescript
+    data class MealDescript(val mealName: String) : Routes
 
     @Serializable
-    object Profile
+    object Profile : Routes
 
     @Serializable
-    object Workout
+    object Workout : Routes
 }

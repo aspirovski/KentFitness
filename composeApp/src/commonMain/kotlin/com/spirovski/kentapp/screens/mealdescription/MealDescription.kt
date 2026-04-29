@@ -1,4 +1,4 @@
-package com.spirovski.kentapp.screens
+package com.spirovski.kentapp.screens.mealdescription
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -38,78 +38,39 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.max
 import com.spirovski.kentapp.components.ButtonMeals
+import com.spirovski.kentapp.components.KentBottomAppBar
+import com.spirovski.kentapp.components.KentTopAppBar
 import com.spirovski.kentapp.components.UniTextField
+import com.spirovski.kentapp.model.Meal
 import com.spirovski.kentapp.navigation.Routes
+import com.spirovski.kentapp.navigation.navigateBack
 import com.spirovski.kentapp.navigation.navigateToScreen
+import com.spirovski.kentapp.screens.TopShadow
 import kentapp.composeapp.generated.resources.Res
 import kentapp.composeapp.generated.resources.fitness_logo
 import org.jetbrains.compose.resources.painterResource
+import org.koin.compose.viewmodel.koinViewModel
 
 //TODO: Koga otvorame postoechki meal, da gi ima vekje polni textfields
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 @Preview
-fun MealDescpt() {
+fun MealDescpt(mealName: String = "") {
 
-    val bottomBarIcons = listOf(
-        Icons.Default.Home,
-        Icons.Default.AccountCircle,
-        Icons.Default.Add,
-        Icons.Default.Tab,
-    )  // Bottom bar ikoni
+    val viewModel = koinViewModel<MealDescriptionViewModel>()
+
+
 
     Scaffold(
-
-        topBar = { CenterAlignedTopAppBar(title = {
-            Image(painterResource(Res.drawable.fitness_logo), contentDescription = "logo",
-                modifier = Modifier.width(200.dp).height(100.dp))
-        },
-            colors = TopAppBarDefaults.topAppBarColors(containerColor = Color.White),
-            actions = {
-
-                IconButton(onClick = {
-                    navigateToScreen(Routes.Profile)
-                }) {
-
-                    Icon(imageVector = Icons.Default.Person,
-                        contentDescription = "Profilna",
-                        modifier = Modifier.size(32.dp))
-
-                }
-
-            }) },
-
-        bottomBar = {
-
-            Column {
-                TopShadow()
-                BottomAppBar (containerColor = Color.White,
-                    modifier = Modifier.height(60.dp),
-                    tonalElevation = 8.dp) {
-                    Row(modifier = Modifier.fillMaxWidth()) {
-                        bottomBarIcons.forEach { icon ->
-                            Tab(
-                                onClick = {}, modifier = Modifier.weight(1f),
-                                selected = true,
-                            ) {
-                                Icon(imageVector = icon, contentDescription = null, tint = Color.Red)
-                            }
-                        }
-                    }
-                }
-            }
-
-        }
-
+        topBar = { KentTopAppBar(logo = Res.drawable.fitness_logo) },
+        bottomBar = { KentBottomAppBar() }
     ) {
 
-        var mealName by remember { mutableStateOf("") }
+        var mealName by remember { mutableStateOf(mealName) }
         var mealRecipe by remember { mutableStateOf("") }
         var mealProtein by remember {mutableStateOf("")}
         var mealCarbs by remember {mutableStateOf("")}
@@ -169,8 +130,22 @@ fun MealDescpt() {
 
                 }
 
-                ButtonMeals("Save Meal", modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp))
-                //TODO: Da go zachuva i da te vrati na Meals
+                ButtonMeals("Save Meal",
+                    modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp),
+                    onClick = {
+
+                        viewModel.addMeal(Meal(
+                            name = mealName,
+                            recipe = mealRecipe,
+                            protein = mealProtein,
+                            carbs = mealCarbs,
+                            fat = mealFat
+                        ))
+
+                        navigateBack()
+
+                    })
+                //TODO: Da go zachuva i da te vrati na Meals. Mi treba model class i ViewModel
             }
 
         }

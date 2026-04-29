@@ -2,6 +2,7 @@ package com.spirovski.kentapp.screens
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -22,7 +23,6 @@ import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Tab
 import androidx.compose.material3.BottomAppBar
-import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CenterAlignedTopAppBar
@@ -52,6 +52,12 @@ import org.jetbrains.compose.resources.painterResource
 @Composable
 @Preview
 fun MealsAll() {
+
+    val meals = remember {
+        mutableStateListOf("Chicken and Rice", "Oats and Banana", "Tuna and Eggs")
+    }
+
+    val selectedMeals = remember { mutableStateListOf<Int>() }
 
     val bottomBarIcons = listOf(
         Icons.Default.Home,
@@ -112,12 +118,24 @@ fun MealsAll() {
             .verticalScroll(rememberScrollState()),
             horizontalAlignment = Alignment.CenterHorizontally) {
 
-            MealsList()
+            MealsList(meals = meals, selectedMeals = selectedMeals)
 
             Spacer(modifier = Modifier.height(30.dp))
 
-            ButtonMeals("Add Meal", modifier = Modifier.fillMaxWidth().padding(10.dp))
-            ButtonMeals("Remove Meal", modifier = Modifier.fillMaxWidth().padding(10.dp))
+            ButtonMeals("Add Meal",
+                modifier = Modifier.fillMaxWidth().padding(10.dp),
+                onClick = {
+                    navigateToScreen(Routes.MealDescript)
+                })
+
+            ButtonMeals("Remove Meal",
+                modifier = Modifier.fillMaxWidth().padding(10.dp),
+                onClick = {
+                    selectedMeals.sortedDescending().forEach { index ->
+                        meals.removeAt(index)
+                    }
+                    selectedMeals.clear()
+                })
 
             //TODO: Google AD
 
@@ -128,11 +146,9 @@ fun MealsAll() {
 }
 
 @Composable
-fun MealsList() {
+fun MealsList(meals: MutableList<String>, selectedMeals: MutableList<Int>) {
 
-    val meals = remember {
-        mutableStateListOf("Chicken and Rice", "Oats and Banana", "Tuna and Eggs")
-    }
+
 
     Card(modifier = Modifier.fillMaxWidth().height(350.dp).padding(horizontal = 16.dp),
         colors = CardDefaults.cardColors(Color.LightGray),
@@ -143,11 +159,19 @@ fun MealsList() {
 
             items(meals.size) { index ->
 
-                Card(onClick = {
+                val isSelected = selectedMeals.contains(index)
 
-                    navigateToScreen(Routes.MealDescript)
-
-                }, modifier = Modifier.fillMaxWidth().padding(vertical = 4.dp),
+                Card(modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(vertical = 4.dp)
+                    .combinedClickable(
+                        onClick = {
+                            navigateToScreen(Routes.MealDescript(meals[index]))
+                        },
+                        onLongClick = {
+                            if (isSelected) selectedMeals.remove(index) else selectedMeals.add(index)
+                        }
+                    ),
                     elevation = CardDefaults.cardElevation(4.dp),
                     shape = RoundedCornerShape(5.dp)) {
 

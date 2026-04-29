@@ -30,12 +30,24 @@ kotlin {
         androidMain.dependencies {
             implementation(libs.compose.uiToolingPreview)
             implementation(libs.androidx.activity.compose)
+            implementation(libs.koin.android)
         }
         commonMain.dependencies {
+
+            // Icons
             implementation(libs.material.icons.extended)
 
+            // Navigation
             implementation(libs.jetbrains.navigation.compose)
             implementation(libs.kotlinx.serialization.json)
+
+            // Coroutines
+            implementation(libs.kotlinx.coroutines.core)
+
+            implementation(libs.koin.compose)
+            implementation(libs.koin.compose.viewmodel)
+
+
 
             implementation(libs.compose.runtime)
             implementation(libs.compose.foundation)
@@ -82,4 +94,3 @@ android {
 dependencies {
     debugImplementation(libs.compose.uiTooling)
 }
-
