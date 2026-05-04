@@ -21,16 +21,19 @@ import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.Button
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Tab
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
+import androidx.compose.material3.TextFieldColors
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.spirovski.kentapp.navigation.Routes
 import com.spirovski.kentapp.navigation.navigateBack
@@ -46,6 +49,12 @@ fun UniTextField(
     value: String,
     onValueChange: (String) -> Unit,
     placeholder: String,
+    unFocusedLabelColor: Color = Color.LightGray,
+    focusedLabelColor: Color = Color.Gray,
+    unfocusedIndicatorColor: Color = Color.Transparent,
+    focusedIndicatorColor: Color = Color.Transparent,
+    unfocusedContainerColor: Color = Color.LightGray,
+    focusedContainerColor: Color = Color.LightGray,
     modifier: Modifier = Modifier
 ) {
 
@@ -59,8 +68,9 @@ fun UniTextField(
         placeholder = { Text(placeholder) },
         modifier = modifier,
         colors = TextFieldDefaults.colors(
-            unfocusedLabelColor = Color.LightGray, focusedLabelColor = Color.Gray,
-            unfocusedIndicatorColor = Color.Transparent, focusedIndicatorColor = Color.Transparent
+            unfocusedLabelColor = unFocusedLabelColor, focusedLabelColor = focusedLabelColor,
+            unfocusedIndicatorColor = unfocusedIndicatorColor, focusedIndicatorColor = focusedIndicatorColor,
+            unfocusedContainerColor = unfocusedContainerColor, focusedContainerColor = focusedContainerColor
         )
     )
 
@@ -153,4 +163,12 @@ fun KentBottomAppBar() {
             }
         }
     }
+}
+
+@Composable
+fun DivideHor(thickness: Dp = 2.dp) {
+
+    HorizontalDivider(modifier = Modifier.fillMaxWidth(),
+        thickness = thickness)
+
 }

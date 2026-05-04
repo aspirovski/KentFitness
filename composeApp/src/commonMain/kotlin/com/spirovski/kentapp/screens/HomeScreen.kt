@@ -119,7 +119,7 @@ fun HomeScrn() {
             }
 
         }
-    ) {innerPadding ->
+    ) { innerPadding ->
 
         Column(
             modifier = Modifier
@@ -212,7 +212,10 @@ private fun WorkoutTypeCard() {
             }
 
             ButtonMeals(text = "Edit Workout",
-                modifier = Modifier.fillMaxWidth())
+                modifier = Modifier.fillMaxWidth(),
+                onClick = {
+                    navigateToScreen(Routes.Workout)
+                })
 
         }
 
@@ -311,11 +314,10 @@ fun CurrentGoalsCard() {
 
             Spacer(modifier = Modifier.width(16.dp))
 
-            Button(onClick = {}) {
-
-                Text("???")
-
-            }
+            ButtonMeals(text = "Edit Parameters",
+                onClick = {
+                    navigateToScreen(Routes.Edit)
+                })
 
         }
 

@@ -150,7 +150,11 @@ fun ProfileScrn() {
 
                     }
 
-                    ButtonMeals(text = "Edit Profile", modifier = Modifier.padding(vertical = 4.dp))
+                    ButtonMeals(text = "Edit Profile",
+                        modifier = Modifier.padding(vertical = 4.dp),
+                        onClick = {
+                            navigateToScreen(Routes.Edit)
+                        })
 
                 }
 

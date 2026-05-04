@@ -16,6 +16,12 @@ sealed interface Routes {
     object Splash : Routes
 
     @Serializable
+    object Register : Routes
+
+    @Serializable
+    object Login : Routes
+
+    @Serializable
     object Home : Routes
 
     @Serializable
@@ -28,5 +34,8 @@ sealed interface Routes {
     object Profile : Routes
 
     @Serializable
-    object Workout : Routes
+    data class Workout(val showWelcomeSnackbar: Boolean = true) : Routes
+
+    @Serializable
+    object Edit : Routes
 }

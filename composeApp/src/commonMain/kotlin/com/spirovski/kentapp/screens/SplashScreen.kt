@@ -55,8 +55,8 @@ fun KentSplashScreen() {
             )
         )
 
-        delay(2000L)
-        navigateToScreen(Routes.Home)
+        delay(3000L)
+        navigateToScreen(Routes.Login)
 
     }
 
@@ -72,7 +72,7 @@ fun KentSplashScreen() {
                     contentScale = ContentScale.Fit,
                     modifier = Modifier.size(95.dp))
 
-                Text("Your life solution, in the palm of your hand",
+                Text("Life solution, in the palm of your hand",
                     style = MaterialTheme.typography.headlineSmall,
                     color = Color.LightGray)
 

@@ -59,18 +59,16 @@ import org.koin.compose.viewmodel.koinViewModel
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 @Preview
-fun MealDescpt(mealName: String = "") {
+fun MealDescpt(initialMealName: String = "") {
 
     val viewModel = koinViewModel<MealDescriptionViewModel>()
-
-
 
     Scaffold(
         topBar = { KentTopAppBar(logo = Res.drawable.fitness_logo) },
         bottomBar = { KentBottomAppBar() }
     ) {
 
-        var mealName by remember { mutableStateOf(mealName) }
+        var mealName by remember { mutableStateOf(initialMealName) }
         var mealRecipe by remember { mutableStateOf("") }
         var mealProtein by remember {mutableStateOf("")}
         var mealCarbs by remember {mutableStateOf("")}

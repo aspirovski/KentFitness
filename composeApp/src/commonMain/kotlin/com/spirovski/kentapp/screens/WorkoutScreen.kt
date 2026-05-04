@@ -31,13 +31,17 @@ import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Tab
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -55,7 +59,15 @@ import kotlin.math.exp
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 @Preview
-fun WorkoutScrn() {
+fun WorkoutScrn(showWelcomeSnackbar: Boolean = true) {
+
+    val snackbarHostState = remember { SnackbarHostState() }
+
+    LaunchedEffect(showWelcomeSnackbar) {
+        if (showWelcomeSnackbar) {
+            snackbarHostState.showSnackbar("Choose your workout")
+        }
+    }
 
     val bottomBarIcons = listOf(
         BottomBarTabs(icon = Icons.Default.Home, onClick = { navigateToScreen(Routes.Home)}),
@@ -73,6 +85,7 @@ fun WorkoutScrn() {
     var expandedTp3 by remember { mutableStateOf(false) }
 
     Scaffold(
+        snackbarHost = { SnackbarHost(snackbarHostState) },
         topBar = { CenterAlignedTopAppBar(title = {
             Image(painterResource(Res.drawable.fitness_logo), contentDescription = "logo",
                 modifier = Modifier.width(200.dp).height(100.dp))
